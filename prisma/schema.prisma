@@ -1,0 +1,248 @@
+// Schemat bazy danych CRM dla agenta nieruchomości.
+// Każdy rekord (poza User) ma userId - agent widzi wyłącznie swoje dane.
+// Po zmianie tego pliku uruchom: npm run db:migrate
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// Profil agenta. id = to samo uuid co w Supabase Auth (auth.users.id).
+model User {
+  id        String   @id
+  email     String   @unique
+  fullName  String?
+  agency    String?
+  plan      String   @default("free") // "free" | "pro" - do integracji ze Stripe
+  createdAt DateTime @default(now())
+
+  clients      Client[]
+  properties   Property[]
+  tasks        Task[]
+  events       CalendarEvent[]
+  transactions Transaction[]
+  notes        Note[]
+}
+
+enum ClientType {
+  KUPUJACY
+  SPRZEDAJACY
+  WYNAJMUJACY
+  NAJEMCA
+}
+
+enum ClientStatus {
+  NOWY
+  AKTYWNY
+  W_TRAKCIE
+  NIEAKTYWNY
+  ZAKONCZONY
+}
+
+model Client {
+  id           String        @id @default(uuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName    String
+  lastName     String
+  phone        String?
+  email        String?
+  type         ClientType
+  budgetMin    Int?
+  budgetMax    Int?
+  location     String?
+  areaMin      Int?
+  areaMax      Int?
+  rooms        Int?
+  propertyType PropertyType?
+  preferences  String?
+  notes        String?
+  status       ClientStatus  @default(NOWY)
+  lastContact  DateTime?
+  createdAt    DateTime      @default(now())
+
+  contacts     Contact[]
+  tasks        Task[]
+  events       CalendarEvent[]
+  transactions Transaction[]
+  clientNotes  Note[]
+
+  @@index([userId])
+}
+
+enum PropertyType {
+  MIESZKANIE
+  DOM
+  DZIALKA
+  LOKAL_UZYTKOWY
+}
+
+enum MarketType {
+  PIERWOTNY
+  WTORNY
+}
+
+enum PropertyStatus {
+  POZYSKANA
+  PRZYGOTOWANIE
+  AKTYWNA
+  PREZENTACJE
+  NEGOCJACJE
+  SPRZEDANA
+  WYNAJETA
+  NIEAKTYWNA
+}
+
+model Property {
+  id            String         @id @default(uuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title         String
+  address       String
+  city          String?
+  district      String?
+  price         Int?
+  area          Float?
+  rooms         Int?
+  floor         Int?
+  totalFloors   Int?
+  yearBuilt     Int?
+  type          PropertyType
+  market        MarketType     @default(WTORNY)
+  status        PropertyStatus @default(POZYSKANA)
+  description   String?
+  photos        String[]       @default([])
+  ownerName     String?
+  ownerPhone    String?
+  ownerEmail    String?
+  notes         String?
+  createdAt     DateTime       @default(now())
+
+  tasks         Task[]
+  events        CalendarEvent[]
+  transactions  Transaction[]
+  propertyNotes Note[]
+
+  @@index([userId])
+}
+
+enum ContactType {
+  TELEFON
+  EMAIL
+  SMS
+  SPOTKANIE
+  PREZENTACJA
+  INNE
+}
+
+// Historia kontaktów z klientem (osobna tabela, bo jeden klient ma ich wiele)
+model Contact {
+  id       String      @id @default(uuid())
+  clientId String
+  client   Client      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  date     DateTime
+  type     ContactType
+  note     String?
+
+  @@index([clientId])
+}
+
+enum TaskPriority {
+  NISKI
+  SREDNI
+  WYSOKI
+}
+
+enum TaskStatus {
+  DO_ZROBIENIA
+  WYKONANE
+}
+
+model Task {
+  id          String       @id @default(uuid())
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  dueDate     DateTime
+  clientId    String?
+  client      Client?      @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  propertyId  String?
+  property    Property?    @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  priority    TaskPriority @default(SREDNI)
+  status      TaskStatus   @default(DO_ZROBIENIA)
+
+  @@index([userId])
+  @@index([clientId])
+  @@index([propertyId])
+}
+
+enum EventType {
+  TELEFON
+  SPOTKANIE
+  PREZENTACJA
+  PODPISANIE_UMOWY
+  FOLLOW_UP
+  INNE
+}
+
+model CalendarEvent {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title      String
+  type       EventType
+  startsAt   DateTime
+  clientId   String?
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  notes      String?
+
+  @@index([userId])
+}
+
+enum TransactionStage {
+  LEAD
+  KONTAKT
+  SPOTKANIE
+  PREZENTACJA
+  NEGOCJACJE
+  UMOWA
+  ZAKONCZONA
+}
+
+model Transaction {
+  id         String           @id @default(uuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientId   String
+  client     Client           @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property         @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  stage      TransactionStage @default(LEAD)
+  createdAt  DateTime         @default(now())
+
+  @@index([userId])
+}
+
+// Notatka może dotyczyć klienta LUB nieruchomości (dokładnie jedno z pól wypełnione)
+model Note {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entityType String // "client" | "property"
+  clientId   String?
+  client     Client?   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  propertyId String?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  text       String
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
+}

@@ -1,0 +1,17 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  background: #F6F3EC;
+  color: #182338;
+}
+input, select, button {
+  font-family: inherit;
+  font-size: 14px;
+}
+
+/*
+  To jest tylko surowy szkielet, żeby pipeline auth -> baza -> UI zadziałał.
+  Docelowo przenieś tu system stylów z prototypu (nieruchomosci-crm.jsx) -
+  klasy .card, .btn, .field itd. razem z GlobalStyle z tamtego pliku.
+*/
