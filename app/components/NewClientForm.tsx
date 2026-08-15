@@ -32,7 +32,7 @@ export default function NewClientForm() {
 
     setFirstName("");
     setLastName("");
-    router.refresh(); // odświeża dane pobrane po stronie serwera na tej stronie
+    router.refresh();
   }
 
   return (
