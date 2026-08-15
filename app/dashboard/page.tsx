@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import NewClientForm from "./NewClientForm";
 import NewPropertyForm from "./NewPropertyForm";
 import NewTaskForm from "./NewTaskForm";
+import NewEventForm from "./NewEventForm";
 import SignOutButton from "./SignOutButton";
 import { redirect } from "next/navigation";
 
@@ -34,6 +35,11 @@ export default async function DashboardPage() {
     orderBy: { dueDate: "asc" },
     take: 20,
   });
+  const events = await prisma.calendarEvent.findMany({
+    where: { userId: user.id },
+    orderBy: { startsAt: "asc" },
+    take: 20,
+  });
   const clientCount = await prisma.client.count({ where: { userId: user.id } });
   const propertyCount = await prisma.property.count({ where: { userId: user.id } });
 
@@ -41,18 +47,22 @@ export default async function DashboardPage() {
     <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 20px" }}>
       <h1 style={{ fontSize: 24 }}>Witaj, {user.email}</h1>
 
-      <div style={{ display: "flex", gap: 16, margin: "20px 0" }}>
-        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1 }}>
+      <div style={{ display: "flex", gap: 16, margin: "20px 0", flexWrap: "wrap" }}>
+        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1, minWidth: 140 }}>
           <div style={{ fontSize: 12, color: "#8A93A6" }}>KLIENCI</div>
           <div style={{ fontSize: 26, fontWeight: 700 }}>{clientCount} / {CLIENT_LIMIT}</div>
         </div>
-        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1 }}>
+        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1, minWidth: 140 }}>
           <div style={{ fontSize: 12, color: "#8A93A6" }}>NIERUCHOMOŚCI</div>
           <div style={{ fontSize: 26, fontWeight: 700 }}>{propertyCount} / {PROPERTY_LIMIT}</div>
         </div>
-        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1 }}>
+        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1, minWidth: 140 }}>
           <div style={{ fontSize: 12, color: "#8A93A6" }}>ZADANIA</div>
           <div style={{ fontSize: 26, fontWeight: 700 }}>{tasks.filter(t => t.status === "DO_ZROBIENIA").length}</div>
+        </div>
+        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, flex: 1, minWidth: 140 }}>
+          <div style={{ fontSize: 12, color: "#8A93A6" }}>WYDARZENIA</div>
+          <div style={{ fontSize: 26, fontWeight: 700 }}>{events.length}</div>
         </div>
       </div>
 
@@ -82,12 +92,24 @@ export default async function DashboardPage() {
 
       <h2 style={{ fontSize: 16 }}>Zadania</h2>
       <NewTaskForm />
-      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden" }}>
+      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
         {tasks.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak zadań — dodaj pierwsze powyżej.</div>}
         {tasks.map((t) => (
           <div key={t.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
             <strong>{t.name}</strong>
             <span style={{ color: "#8A93A6" }}> — termin: {new Date(t.dueDate).toLocaleDateString("pl-PL")} — {t.priority}</span>
+          </div>
+        ))}
+      </div>
+
+      <h2 style={{ fontSize: 16 }}>Kalendarz</h2>
+      <NewEventForm />
+      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden" }}>
+        {events.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak wydarzeń — dodaj pierwsze powyżej.</div>}
+        {events.map((ev) => (
+          <div key={ev.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
+            <strong>{ev.title}</strong>
+            <span style={{ color: "#8A93A6" }}> — {new Date(ev.startsAt).toLocaleString("pl-PL")} — {ev.type}</span>
           </div>
         ))}
       </div>
