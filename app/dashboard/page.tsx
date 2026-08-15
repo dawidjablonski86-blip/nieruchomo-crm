@@ -58,4 +58,43 @@ export default async function DashboardPage() {
 
       <h2 style={{ fontSize: 16 }}>Klienci</h2>
       <NewClientForm />
-      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden",
+      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
+        {clients.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak klientów — dodaj pierwszego powyżej.</div>}
+        {clients.map((c) => (
+          <div key={c.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
+            <strong>{c.firstName} {c.lastName}</strong>
+            <span style={{ color: "#8A93A6" }}> — {c.type}</span>
+          </div>
+        ))}
+      </div>
+
+      <h2 style={{ fontSize: 16 }}>Nieruchomości</h2>
+      <NewPropertyForm />
+      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden", marginBottom: 32 }}>
+        {properties.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak nieruchomości — dodaj pierwszą powyżej.</div>}
+        {properties.map((p) => (
+          <div key={p.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
+            <strong>{p.title}</strong>
+            <span style={{ color: "#8A93A6" }}> — {p.address} {p.price ? `— ${p.price.toLocaleString("pl-PL")} zł` : ""}</span>
+          </div>
+        ))}
+      </div>
+
+      <h2 style={{ fontSize: 16 }}>Zadania</h2>
+      <NewTaskForm />
+      <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden" }}>
+        {tasks.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak zadań — dodaj pierwsze powyżej.</div>}
+        {tasks.map((t) => (
+          <div key={t.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
+            <strong>{t.name}</strong>
+            <span style={{ color: "#8A93A6" }}> — termin: {new Date(t.dueDate).toLocaleDateString("pl-PL")} — {t.priority}</span>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 24 }}>
+        <SignOutButton />
+      </div>
+    </div>
+  );
+}
