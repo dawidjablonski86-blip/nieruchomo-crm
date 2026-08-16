@@ -37,6 +37,12 @@ export default async function ClientsPage() {
             <div key={c.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
               <strong>{c.firstName} {c.lastName}</strong>
               <span style={{ color: "#8A93A6" }}> — {c.type}</span>
+              {(c.budgetMin || c.budgetMax) && (
+                <div style={{ color: "#5B6478", fontSize: 12, marginTop: 3 }}>
+                  Budżet: {c.budgetMin?.toLocaleString("pl-PL") ?? "?"} – {c.budgetMax?.toLocaleString("pl-PL") ?? "?"} zł
+                  {c.location ? ` · ${c.location}` : ""}
+                </div>
+              )}
             </div>
           ))}
         </div>

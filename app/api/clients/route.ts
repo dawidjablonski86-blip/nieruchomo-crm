@@ -16,8 +16,7 @@ export async function GET() {
   return NextResponse.json(clients);
 }
 
-// POST /api/clients - dodanie klienta. Limit sprawdzany TU, nie tylko w interfejsie -
-// ktoś mógłby ominąć front-end i wysłać żądanie bezpośrednio, więc backend musi pilnować sam.
+// POST /api/clients - dodanie klienta, z limitem sprawdzanym na serwerze
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Brak autoryzacji." }, { status: 401 });
@@ -41,19 +40,15 @@ export async function POST(request: Request) {
       userId: user.id,
       firstName: body.firstName,
       lastName: body.lastName,
-      phone: body.phone ?? null,
-      email: body.email ?? null,
       type: body.type ?? "KUPUJACY",
-      budgetMin: body.budgetMin ?? null,
-      budgetMax: body.budgetMax ?? null,
-      location: body.location ?? null,
-      areaMin: body.areaMin ?? null,
-      areaMax: body.areaMax ?? null,
-      rooms: body.rooms ?? null,
-      propertyType: body.propertyType ?? null,
-      preferences: body.preferences ?? null,
-      notes: body.notes ?? null,
-      status: body.status ?? "NOWY",
+      status: "NOWY",
+      budgetMin: body.budgetMin ? Number(body.budgetMin) : null,
+      budgetMax: body.budgetMax ? Number(body.budgetMax) : null,
+      location: body.location || null,
+      areaMin: body.areaMin ? Number(body.areaMin) : null,
+      areaMax: body.areaMax ? Number(body.areaMax) : null,
+      rooms: body.rooms ? Number(body.rooms) : null,
+      propertyType: body.propertyType || null,
     },
   });
 
