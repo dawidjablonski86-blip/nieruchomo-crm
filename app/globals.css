@@ -1,21 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --bg: #F6F3EC;
+  --bg: #F8FAFC;
   --surface: #FFFFFF;
-  --surface-alt: #EEE8D8;
-  --ink: #182338;
-  --ink-soft: #5B6478;
-  --ink-faint: #8A93A6;
-  --border: #E2DCC9;
-  --pine: #204D3E;
-  --pine-dark: #163629;
-  --pine-tint: #E4EEE9;
-  --brass: #B8863A;
-  --brass-tint: #F6ECDA;
-  --brick: #9C4A33;
-  --brick-tint: #F5E7E1;
-  --radius: 10px;
+  --surface-alt: #F1F5F9;
+  --ink: #0F172A;
+  --ink-soft: #475569;
+  --ink-faint: #94A3B8;
+  --border: #E2E8F0;
+  --accent: #2563EB;
+  --accent-dark: #1D4ED8;
+  --accent-tint: #EFF6FF;
+  --success: #16A34A;
+  --success-tint: #F0FDF4;
+  --danger: #DC2626;
+  --danger-tint: #FEF2F2;
+  --radius: 12px;
 }
 
 * {
@@ -25,13 +25,19 @@
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, sans-serif;
-  background: var(--bg);
   color: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(37, 99, 235, 0.07), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(37, 99, 235, 0.05), transparent 35%);
+  background-attachment: fixed;
+  min-height: 100vh;
 }
 
 h1, h2, h3 {
-  font-family: 'Fraunces', serif;
-  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 input, select, textarea, button {
@@ -41,7 +47,7 @@ input, select, textarea, button {
 
 input, select, textarea {
   padding: 9px 11px;
-  border-radius: 7px;
+  border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--ink);
@@ -49,8 +55,8 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: var(--pine);
-  box-shadow: 0 0 0 3px var(--pine-tint);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-tint);
 }
 
 button {
