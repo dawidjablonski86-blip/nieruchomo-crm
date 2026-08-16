@@ -1,17 +1,58 @@
-* { box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #F6F3EC;
+  --surface: #FFFFFF;
+  --surface-alt: #EEE8D8;
+  --ink: #182338;
+  --ink-soft: #5B6478;
+  --ink-faint: #8A93A6;
+  --border: #E2DCC9;
+  --pine: #204D3E;
+  --pine-dark: #163629;
+  --pine-tint: #E4EEE9;
+  --brass: #B8863A;
+  --brass-tint: #F6ECDA;
+  --brick: #9C4A33;
+  --brick-tint: #F5E7E1;
+  --radius: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
-  background: #F6F3EC;
-  color: #182338;
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
 }
-input, select, button {
+
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+}
+
+input, select, textarea, button {
   font-family: inherit;
   font-size: 14px;
 }
 
-/*
-  To jest tylko surowy szkielet, żeby pipeline auth -> baza -> UI zadziałał.
-  Docelowo przenieś tu system stylów z prototypu (nieruchomosci-crm.jsx) -
-  klasy .card, .btn, .field itd. razem z GlobalStyle z tamtego pliku.
-*/
+input, select, textarea {
+  padding: 9px 11px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--pine);
+  box-shadow: 0 0 0 3px var(--pine-tint);
+}
+
+button {
+  cursor: pointer;
+}
