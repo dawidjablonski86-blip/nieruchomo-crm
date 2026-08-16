@@ -9,6 +9,8 @@ const links = [
   { href: "/calendar", label: "Kalendarz" },
   { href: "/contacts", label: "Kontakty" },
   { href: "/notes", label: "Notatki" },
+  { href: "/matching", label: "Matching" },
+  
 ];
 
 export default function Nav() {

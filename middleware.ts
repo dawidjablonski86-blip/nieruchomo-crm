@@ -34,6 +34,7 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/calendar") ||
     request.nextUrl.pathname.startsWith("/contacts") ||
     request.nextUrl.pathname.startsWith("/notes") ||
+    request.nextUrl.pathname.startsWith("/matching") ||
     request.nextUrl.pathname.startsWith("/api/clients") ||
     request.nextUrl.pathname.startsWith("/api/properties") ||
     request.nextUrl.pathname.startsWith("/api/tasks") ||
@@ -64,5 +65,6 @@ export const config = {
     "/api/contacts/:path*",
     "/notes/:path*",
     "/api/notes/:path*",
+    "/matching/:path*",
   ],
 };
