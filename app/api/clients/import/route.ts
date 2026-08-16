@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       continue;
     }
     await prisma.client.create({
-      data: { userId: user.id, status: "NOWY", ...parsed },
+      data: { userId: user.id, status: "NOWY", ...parsed } as any,
     });
     imported++;
   }
