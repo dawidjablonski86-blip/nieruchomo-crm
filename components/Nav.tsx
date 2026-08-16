@@ -7,6 +7,7 @@ const links = [
   { href: "/properties", label: "Nieruchomości" },
   { href: "/tasks", label: "Zadania" },
   { href: "/calendar", label: "Kalendarz" },
+  { href: "/contacts", label: "Kontakty" },
 ];
 
 export default function Nav() {
