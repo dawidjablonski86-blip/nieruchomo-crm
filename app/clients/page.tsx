@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 import Nav from "@/components/Nav";
 import NewClientForm from "@/components/NewClientForm";
 
-const CLIENT_LIMIT = 100;
+const CLIENT_LIMIT_FREE = 100;
+const CLIENT_LIMIT_PRO = 500;
 
 export default async function ClientsPage() {
   const authUser = await getCurrentUser();
@@ -21,13 +22,16 @@ export default async function ClientsPage() {
     orderBy: { createdAt: "desc" },
   });
   const clientCount = clients.length;
+  const clientLimit = user.plan === "pro" ? CLIENT_LIMIT_PRO : CLIENT_LIMIT_FREE;
 
   return (
     <div>
       <Nav />
       <div style={{ maxWidth: 780, margin: "0 auto", padding: "40px 20px" }}>
         <h1 style={{ fontSize: 22 }}>Klienci</h1>
-        <p style={{ color: "#8A93A6", fontSize: 13, marginTop: 4 }}>{clientCount} / {CLIENT_LIMIT}</p>
+        <p style={{ color: "#8A93A6", fontSize: 13, marginTop: 4 }}>
+          {clientCount} / {clientLimit} {user.plan === "pro" && "(plan Pro)"}
+        </p>
 
         <NewClientForm />
 

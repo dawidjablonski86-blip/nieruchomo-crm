@@ -2,24 +2,31 @@ import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 
-const PROPERTY_LIMIT = 50;
+const PROPERTY_LIMIT_FREE = 50;
+const PROPERTY_LIMIT_PRO = 200;
 
 // GET /api/properties - lista nieruchomości zalogowanego agenta
 export async function GET() {
-  const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Brak autoryzacji." }, { status: 401 });
+  const authUser = await getCurrentUser();
+  if (!authUser) return NextResponse.json({ error: "Brak autoryzacji." }, { status: 401 });
 
   const properties = await prisma.property.findMany({
-    where: { userId: user.id },
+    where: { userId: authUser.id },
     orderBy: { createdAt: "desc" },
   });
   return NextResponse.json(properties);
 }
 
-// POST /api/properties - dodanie nieruchomości. Limit sprawdzany tu, na serwerze.
+// POST /api/properties - dodanie nieruchomości, z limitem zależnym od planu
 export async function POST(request: Request) {
-  const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Brak autoryzacji." }, { status: 401 });
+  const authUser = await getCurrentUser();
+  if (!authUser) return NextResponse.json({ error: "Brak autoryzacji." }, { status: 401 });
+
+  const user = await prisma.user.upsert({
+    where: { id: authUser.id },
+    update: {},
+    create: { id: authUser.id, email: authUser.email ?? "" },
+  });
 
   const body = await request.json();
 
@@ -28,9 +35,10 @@ export async function POST(request: Request) {
   }
 
   const count = await prisma.property.count({ where: { userId: user.id } });
-  if (count >= PROPERTY_LIMIT) {
+  const limit = user.plan === "pro" ? PROPERTY_LIMIT_PRO : PROPERTY_LIMIT_FREE;
+  if (count >= limit) {
     return NextResponse.json(
-      { error: `Osiągnięto limit ${PROPERTY_LIMIT} nieruchomości. Usuń istniejącą lub zmień plan.` },
+      { error: `Osiągnięto limit ${limit} nieruchomości. Usuń istniejącą lub zmień plan.` },
       { status: 403 }
     );
   }
