@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Nav from "@/components/Nav";
 import NewClientForm from "@/components/NewClientForm";
+import ImportClientsForm from "@/components/ImportClientsForm";
 
 const CLIENT_LIMIT_FREE = 100;
 const CLIENT_LIMIT_PRO = 500;
@@ -34,6 +35,7 @@ export default async function ClientsPage() {
         </p>
 
         <NewClientForm />
+        <ImportClientsForm />
 
         <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden", marginTop: 16 }}>
           {clients.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak klientów — dodaj pierwszego powyżej.</div>}
