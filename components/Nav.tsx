@@ -11,6 +11,7 @@ const links = [
   { href: "/notes", label: "Notatki" },
   { href: "/matching", label: "Matching" },
   { href: "/transactions", label: "Transakcje" },
+  { href: "/settings", label: "Ustawienia" },
   
 ];
 

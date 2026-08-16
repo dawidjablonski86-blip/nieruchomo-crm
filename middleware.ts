@@ -36,13 +36,15 @@ export async function middleware(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/notes") ||
     request.nextUrl.pathname.startsWith("/matching") ||
     request.nextUrl.pathname.startsWith("/transactions") ||
+    request.nextUrl.pathname.startsWith("/settings") ||
     request.nextUrl.pathname.startsWith("/api/clients") ||
     request.nextUrl.pathname.startsWith("/api/properties") ||
     request.nextUrl.pathname.startsWith("/api/tasks") ||
     request.nextUrl.pathname.startsWith("/api/events") ||
     request.nextUrl.pathname.startsWith("/api/contacts") ||
     request.nextUrl.pathname.startsWith("/api/notes") ||
-    request.nextUrl.pathname.startsWith("/api/transactions");
+    request.nextUrl.pathname.startsWith("/api/transactions") ||
+    request.nextUrl.pathname.startsWith("/api/checkout");
 
   if (isProtected && !user) {
     const loginUrl = new URL("/login", request.url);
@@ -70,5 +72,7 @@ export const config = {
     "/matching/:path*",
     "/transactions/:path*",
     "/api/transactions/:path*",
+    "/settings/:path*",
+    "/api/checkout/:path*",
   ],
 };
