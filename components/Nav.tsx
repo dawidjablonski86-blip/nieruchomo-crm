@@ -8,6 +8,7 @@ const links = [
   { href: "/tasks", label: "Zadania" },
   { href: "/calendar", label: "Kalendarz" },
   { href: "/contacts", label: "Kontakty" },
+  { href: "/notes", label: "Notatki" },
 ];
 
 export default function Nav() {
