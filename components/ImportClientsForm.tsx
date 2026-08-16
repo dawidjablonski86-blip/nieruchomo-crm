@@ -9,6 +9,7 @@ export default function ImportClientsForm() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ imported: number; skipped: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showHelp, setShowHelp] = useState(false);
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -42,11 +43,32 @@ export default function ImportClientsForm() {
 
   return (
     <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, margin: "12px 0" }}>
-      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Import klientów z pliku CSV</div>
-      <div style={{ fontSize: 12, color: "#8A93A6", marginBottom: 10 }}>
-        Kolumny: imię, nazwisko, telefon, email, typ, budżet_min, budżet_max, lokalizacja
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontSize: 13, fontWeight: 600 }}>Import klientów z pliku CSV</div>
+        <button type="button" onClick={() => setShowHelp(!showHelp)}
+          style={{ background: "none", border: "none", color: "#204D3E", fontSize: 12, fontWeight: 600, cursor: "pointer", padding: 0 }}>
+          {showHelp ? "Ukryj instrukcję" : "Jak przygotować plik?"}
+        </button>
       </div>
-      <input ref={fileInputRef} type="file" accept=".csv" onChange={handleFileChange} disabled={loading} />
+
+      {showHelp && (
+        <div style={{ background: "#F6F3EC", borderRadius: 8, padding: 12, marginTop: 10, fontSize: 12.5, color: "#5B6478", lineHeight: 1.7 }}>
+          <strong style={{ color: "#182338" }}>Jeśli masz klientów w Excelu:</strong>
+          <ol style={{ margin: "6px 0 10px", paddingLeft: 18 }}>
+            <li>Ustaw kolumny w tej kolejności: imię, nazwisko, telefon, email, typ, budżet_min, budżet_max, lokalizacja</li>
+            <li>W Excelu: <strong>Plik → Zapisz jako</strong> → jako typ pliku wybierz <strong>CSV (rozdzielany przecinkami)</strong></li>
+            <li>Wgraj zapisany plik przyciskiem poniżej</li>
+          </ol>
+          <strong style={{ color: "#182338" }}>Dozwolone wartości pola „typ":</strong> KUPUJACY, SPRZEDAJACY, WYNAJMUJACY, NAJEMCA
+          <br /><br />
+          Pola telefon, email, budżet i lokalizacja są opcjonalne — możesz je zostawić puste.
+          Pierwsza linijka z nazwami kolumn (nagłówek) jest rozpoznawana automatycznie i pomijana.
+        </div>
+      )}
+
+      <div style={{ marginTop: 10 }}>
+        <input ref={fileInputRef} type="file" accept=".csv" onChange={handleFileChange} disabled={loading} />
+      </div>
       {loading && <div style={{ fontSize: 12.5, color: "#8A93A6", marginTop: 8 }}>Importuję…</div>}
       {result && (
         <div style={{ fontSize: 12.5, color: "#204D3E", marginTop: 8 }}>
