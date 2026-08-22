@@ -14,12 +14,13 @@ export default async function ContactsPage() {
   const clients = await prisma.client.findMany({
     where: { userId: user.id },
     orderBy: { firstName: "asc" },
+    select: { id: true, firstName: true, lastName: true },
   });
 
   const contacts = await prisma.contact.findMany({
     where: { client: { userId: user.id } },
     orderBy: { date: "desc" },
-    include: { client: true },
+    include: { client: { select: { firstName: true, lastName: true } } },
   });
 
   return (

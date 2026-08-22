@@ -15,9 +15,16 @@ export default async function MatchingPage() {
 
   const clients = await prisma.client.findMany({
     where: { userId: user.id, type: { in: SEEKER_TYPES as any } },
+    select: {
+      firstName: true, lastName: true, budgetMin: true, budgetMax: true,
+      location: true, areaMin: true, areaMax: true, rooms: true, propertyType: true,
+    },
   });
   const properties = await prisma.property.findMany({
     where: { userId: user.id },
+    select: {
+      title: true, price: true, area: true, rooms: true, type: true, city: true, district: true,
+    },
   });
 
   const pairs: { clientName: string; propertyTitle: string; score: number; reasons: { ok: boolean; text: string }[] }[] = [];

@@ -14,15 +14,20 @@ export default async function NotesPage() {
   const clientsRaw = await prisma.client.findMany({
     where: { userId: user.id },
     orderBy: { firstName: "asc" },
+    select: { id: true, firstName: true, lastName: true },
   });
   const propertiesRaw = await prisma.property.findMany({
     where: { userId: user.id },
     orderBy: { title: "asc" },
+    select: { id: true, title: true },
   });
   const notes = await prisma.note.findMany({
     where: { userId: user.id },
     orderBy: { createdAt: "desc" },
-    include: { client: true, property: true },
+    include: {
+      client: { select: { firstName: true, lastName: true } },
+      property: { select: { title: true } },
+    },
   });
 
   const clients = clientsRaw.map((c) => ({ id: c.id, label: `${c.firstName} ${c.lastName}` }));
