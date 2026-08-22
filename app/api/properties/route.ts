@@ -17,7 +17,7 @@ export async function GET() {
   return NextResponse.json(properties);
 }
 
-// POST /api/properties - dodanie nieruchomości, z limitem zależnym od planu
+// POST /api/properties - dodanie nieruchomości, z limitem zależnym od planu i zdjęciami
 export async function POST(request: Request) {
   const authUser = await getCurrentUser();
   if (!authUser) return NextResponse.json({ error: "Brak autoryzacji." }, { status: 401 });
@@ -55,6 +55,7 @@ export async function POST(request: Request) {
       rooms: body.rooms ? Number(body.rooms) : null,
       type: body.type ?? "MIESZKANIE",
       status: body.status ?? "POZYSKANA",
+      photos: Array.isArray(body.photos) ? body.photos : [],
     },
   });
 
