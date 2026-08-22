@@ -8,11 +8,8 @@ export default async function CalendarPage() {
   const authUser = await getCurrentUser();
   if (!authUser) redirect("/login");
 
-  const user = await prisma.user.upsert({
-    where: { id: authUser.id },
-    update: {},
-    create: { id: authUser.id, email: authUser.email ?? "" },
-  });
+  const user = await prisma.user.findUnique({ where: { id: authUser.id } });
+  if (!user) redirect("/dashboard");
 
   const events = await prisma.calendarEvent.findMany({
     where: { userId: user.id },

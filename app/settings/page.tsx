@@ -8,11 +8,8 @@ export default async function SettingsPage({ searchParams }: { searchParams: { s
   const authUser = await getCurrentUser();
   if (!authUser) redirect("/login");
 
-  const user = await prisma.user.upsert({
-    where: { id: authUser.id },
-    update: {},
-    create: { id: authUser.id, email: authUser.email ?? "" },
-  });
+  const user = await prisma.user.findUnique({ where: { id: authUser.id } });
+  if (!user) redirect("/dashboard");
 
   return (
     <div>

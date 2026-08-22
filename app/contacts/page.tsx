@@ -8,16 +8,12 @@ export default async function ContactsPage() {
   const authUser = await getCurrentUser();
   if (!authUser) redirect("/login");
 
-  const user = await prisma.user.upsert({
-    where: { id: authUser.id },
-    update: {},
-    create: { id: authUser.id, email: authUser.email ?? "" },
-  });
+  const user = await prisma.user.findUnique({ where: { id: authUser.id } });
+  if (!user) redirect("/dashboard");
 
   const clients = await prisma.client.findMany({
     where: { userId: user.id },
     orderBy: { firstName: "asc" },
-    select: { id: true, firstName: true, lastName: true },
   });
 
   const contacts = await prisma.contact.findMany({
