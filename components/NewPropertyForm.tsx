@@ -40,22 +40,22 @@ export default function NewPropertyForm() {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", margin: "12px 0" }}>
       <input placeholder="Tytuł" required value={title} onChange={(e) => setTitle(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }} />
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }} />
       <input placeholder="Adres" required value={address} onChange={(e) => setAddress(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }} />
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }} />
       <input placeholder="Cena" type="number" value={price} onChange={(e) => setPrice(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9", width: 110 }} />
-      <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }}>
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0", width: 110 }} />
+      <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }}>
         <option value="MIESZKANIE">Mieszkanie</option>
         <option value="DOM">Dom</option>
         <option value="DZIALKA">Działka</option>
         <option value="LOKAL_UZYTKOWY">Lokal użytkowy</option>
       </select>
       <button type="submit" disabled={loading}
-        style={{ padding: "8px 14px", borderRadius: 6, border: "none", background: "#204D3E", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
+        style={{ padding: "8px 14px", borderRadius: 8, border: "none", background: "#2563EB", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
         {loading ? "Dodaję…" : "Dodaj nieruchomość"}
       </button>
-      {error && <span style={{ color: "#9C4A33", fontSize: 12.5 }}>{error}</span>}
+      {error && <span style={{ color: "#DC2626", fontSize: 12.5 }}>{error}</span>}
     </form>
   );
 }

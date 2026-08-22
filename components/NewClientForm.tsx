@@ -51,10 +51,10 @@ export default function NewClientForm() {
     router.refresh();
   }
 
-  const inputStyle = { padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" };
+  const inputStyle = { padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" };
 
   return (
-    <form onSubmit={handleSubmit} style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 16, margin: "12px 0", display: "flex", flexDirection: "column", gap: 10 }}>
+    <form onSubmit={handleSubmit} style={{ background: "#fff", border: "1px solid #E2E8F0", borderRadius: 12, padding: 16, margin: "12px 0", display: "flex", flexDirection: "column", gap: 10 }}>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <input placeholder="Imię" required value={firstName} onChange={(e) => setFirstName(e.target.value)} style={inputStyle} />
         <input placeholder="Nazwisko" required value={lastName} onChange={(e) => setLastName(e.target.value)} style={inputStyle} />
@@ -66,7 +66,7 @@ export default function NewClientForm() {
         </select>
       </div>
 
-      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#8A93A6", textTransform: "uppercase", marginTop: 4 }}>
+      <div style={{ fontSize: 11.5, fontWeight: 700, color: "#94A3B8", textTransform: "uppercase", marginTop: 4 }}>
         Preferencje (używane do dopasowania nieruchomości)
       </div>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
@@ -88,10 +88,10 @@ export default function NewClientForm() {
 
       <div>
         <button type="submit" disabled={loading}
-          style={{ padding: "8px 14px", borderRadius: 6, border: "none", background: "#204D3E", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
+          style={{ padding: "8px 14px", borderRadius: 8, border: "none", background: "#2563EB", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
           {loading ? "Dodaję…" : "Dodaj klienta"}
         </button>
-        {error && <span style={{ color: "#9C4A33", fontSize: 12.5, marginLeft: 10 }}>{error}</span>}
+        {error && <span style={{ color: "#DC2626", fontSize: 12.5, marginLeft: 10 }}>{error}</span>}
       </div>
     </form>
   );

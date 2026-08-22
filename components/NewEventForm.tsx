@@ -38,10 +38,10 @@ export default function NewEventForm() {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", margin: "12px 0" }}>
       <input placeholder="Nazwa wydarzenia" required value={title} onChange={(e) => setTitle(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }} />
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }} />
       <input type="datetime-local" required value={startsAt} onChange={(e) => setStartsAt(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }} />
-      <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }}>
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }} />
+      <select value={type} onChange={(e) => setType(e.target.value)} style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }}>
         <option value="TELEFON">Telefon</option>
         <option value="SPOTKANIE">Spotkanie</option>
         <option value="PREZENTACJA">Prezentacja</option>
@@ -50,10 +50,10 @@ export default function NewEventForm() {
         <option value="INNE">Inne</option>
       </select>
       <button type="submit" disabled={loading}
-        style={{ padding: "8px 14px", borderRadius: 6, border: "none", background: "#204D3E", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
+        style={{ padding: "8px 14px", borderRadius: 8, border: "none", background: "#2563EB", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
         {loading ? "Dodaję…" : "Dodaj wydarzenie"}
       </button>
-      {error && <span style={{ color: "#9C4A33", fontSize: 12.5 }}>{error}</span>}
+      {error && <span style={{ color: "#DC2626", fontSize: 12.5 }}>{error}</span>}
     </form>
   );
 }

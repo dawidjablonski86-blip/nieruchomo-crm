@@ -39,28 +39,28 @@ export default function NewTransactionForm({ clients, properties }: { clients: O
   }
 
   if (clients.length === 0 || properties.length === 0) {
-    return <p style={{ color: "#8A93A6", fontSize: 13, margin: "12px 0" }}>Potrzebujesz co najmniej jednego klienta i jednej nieruchomości, żeby dodać transakcję.</p>;
+    return <p style={{ color: "#94A3B8", fontSize: 13, margin: "12px 0" }}>Potrzebujesz co najmniej jednego klienta i jednej nieruchomości, żeby dodać transakcję.</p>;
   }
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center", margin: "12px 0" }}>
       <select value={clientId} onChange={(e) => setClientId(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }}>
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }}>
         {clients.map((c) => (
           <option key={c.id} value={c.id}>{c.label}</option>
         ))}
       </select>
       <select value={propertyId} onChange={(e) => setPropertyId(e.target.value)}
-        style={{ padding: 8, borderRadius: 6, border: "1px solid #E2DCC9" }}>
+        style={{ padding: 8, borderRadius: 8, border: "1px solid #E2E8F0" }}>
         {properties.map((p) => (
           <option key={p.id} value={p.id}>{p.label}</option>
         ))}
       </select>
       <button type="submit" disabled={loading}
-        style={{ padding: "8px 14px", borderRadius: 6, border: "none", background: "#204D3E", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
+        style={{ padding: "8px 14px", borderRadius: 8, border: "none", background: "#2563EB", color: "#fff", fontWeight: 600, cursor: "pointer" }}>
         {loading ? "Dodaję…" : "Nowa transakcja"}
       </button>
-      {error && <span style={{ color: "#9C4A33", fontSize: 12.5 }}>{error}</span>}
+      {error && <span style={{ color: "#DC2626", fontSize: 12.5 }}>{error}</span>}
     </form>
   );
 }
