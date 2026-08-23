@@ -6,4 +6,4 @@ apiVersion: "2026-07-29.dahlia",
 });
 
 // Price ID Twojego planu Pro ze Stripe (Product catalog -> Plan Pro -> Price ID)
-export const PRO_PRICE_ID = "price_1U4yBqK2T1htPDjLPxoyF6qT";
+export const PRO_PRICE_ID = "price_1U7ekqK2T1htPDjL0le6GJ1a";
