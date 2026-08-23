@@ -92,7 +92,9 @@ export default function LoginPage() {
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
           <button type="button" onClick={() => { setMode(mode === "login" ? "signup" : "login"); setError(null); setInfo(null); }}
             style={{ background: "none", border: "none", color: "#475569", fontSize: 12.5, cursor: "pointer", padding: 0 }}>
-         {mode !== "reset" && (
+            {mode === "login" ? "Nie masz konta? Zarejestruj się" : "Masz już konto? Zaloguj się"}
+          </button>
+          {mode !== "reset" && (
             <button type="button" onClick={() => { setMode("reset"); setError(null); setInfo(null); }}
               style={{ background: "none", border: "none", color: "#475569", fontSize: 12.5, cursor: "pointer", padding: 0 }}>
               Zapomniałem hasła
