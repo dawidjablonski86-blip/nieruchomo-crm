@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import Nav from "@/components/Nav";
 import NewPropertyForm from "@/components/NewPropertyForm";
 
@@ -41,10 +42,13 @@ export default async function PropertiesPage() {
               ) : (
                 <div style={{ width: 48, height: 48, borderRadius: 8, background: "#F1F5F9", flexShrink: 0 }} />
               )}
-              <div>
+              <div style={{ flex: 1 }}>
                 <strong>{p.title}</strong>
                 <span style={{ color: "#8A93A6" }}> — {p.address} {p.price ? `— ${p.price.toLocaleString("pl-PL")} zł` : ""}</span>
               </div>
+              <Link href={`/properties/${p.id}/edit`} style={{ fontSize: 12.5, color: "#2563EB", textDecoration: "none", fontWeight: 600 }}>
+                Edytuj
+              </Link>
             </div>
           ))}
         </div>
