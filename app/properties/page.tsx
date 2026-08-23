@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import NewPropertyForm from "@/components/NewPropertyForm";
+import PropertyThumbnail from "@/components/PropertyThumbnail";
 
 const PROPERTY_LIMIT_FREE = 50;
 const PROPERTY_LIMIT_PRO = 200;
@@ -37,11 +38,7 @@ export default async function PropertiesPage() {
           {properties.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak nieruchomości — dodaj pierwszą powyżej.</div>}
           {properties.map((p) => (
             <div key={p.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5, display: "flex", alignItems: "center", gap: 12 }}>
-              {p.photos && p.photos.length > 0 ? (
-                <img src={p.photos[0]} alt={p.title} style={{ width: 48, height: 48, objectFit: "cover", borderRadius: 8, flexShrink: 0 }} />
-              ) : (
-                <div style={{ width: 48, height: 48, borderRadius: 8, background: "#F1F5F9", flexShrink: 0 }} />
-              )}
+              <PropertyThumbnail photos={p.photos} title={p.title} />
               <div style={{ flex: 1 }}>
                 <strong>{p.title}</strong>
                 <span style={{ color: "#8A93A6" }}> — {p.address} {p.price ? `— ${p.price.toLocaleString("pl-PL")} zł` : ""}</span>
