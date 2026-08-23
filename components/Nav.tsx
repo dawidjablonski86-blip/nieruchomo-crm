@@ -32,7 +32,7 @@ export default function Nav() {
             const active = pathname === link.href;
             return (
               <Link key={link.href} href={link.href} style={{
-                fontSize: 13, fontWeight: 600, textDecoration: "none",
+                fontSize: 15.5, fontWeight: 600, textDecoration: "none",
                 padding: "7px 12px", borderRadius: 8,
                 color: active ? "#2563EB" : "#475569",
                 background: active ? "#EFF6FF" : "transparent",
