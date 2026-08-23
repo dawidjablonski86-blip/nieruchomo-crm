@@ -27,7 +27,7 @@ body {
   font-family: 'Inter', -apple-system, sans-serif;
   color: var(--ink);
   background-image:
-    linear-gradient(rgba(248, 250, 252, 0.93), rgba(248, 250, 252, 0.97)),
+    linear-gradient(rgba(248, 250, 252, 0.93), rgba(248, 250, 252, 0.85)),
     url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2000&q=60');
   background-size: cover;
   background-position: center;
