@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Nav from "@/components/Nav";
 import NewTaskForm from "@/components/NewTaskForm";
+import TaskRow from "@/components/TaskRow";
 
 export default async function TasksPage() {
   const authUser = await getCurrentUser();
@@ -28,10 +29,7 @@ export default async function TasksPage() {
         <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, overflow: "hidden", marginTop: 16 }}>
           {tasks.length === 0 && <div style={{ padding: 16, color: "#8A93A6", fontSize: 13 }}>Brak zadań — dodaj pierwsze powyżej.</div>}
           {tasks.map((t) => (
-            <div key={t.id} style={{ padding: "12px 16px", borderBottom: "1px solid #EBE6D6", fontSize: 13.5 }}>
-              <strong>{t.name}</strong>
-              <span style={{ color: "#8A93A6" }}> — termin: {new Date(t.dueDate).toLocaleDateString("pl-PL")} — {t.priority}</span>
-            </div>
+            <TaskRow key={t.id} task={t} />
           ))}
         </div>
       </div>
