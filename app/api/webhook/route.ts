@@ -17,6 +17,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Nieprawidłowy podpis webhooka." }, { status: 400 });
   }
 
+  // Udana płatność - ustaw plan na "pro"
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const userId = session.metadata?.userId;
@@ -25,6 +26,19 @@ export async function POST(request: Request) {
       await prisma.user.update({
         where: { id: userId },
         data: { plan: "pro" },
+      });
+    }
+  }
+
+  // Subskrypcja anulowana lub zakończona - cofnij plan na "free"
+  if (event.type === "customer.subscription.deleted") {
+    const subscription = event.data.object as Stripe.Subscription;
+    const userId = subscription.metadata?.userId;
+
+    if (userId) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { plan: "free" },
       });
     }
   }

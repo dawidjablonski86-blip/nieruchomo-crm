@@ -23,6 +23,7 @@ export async function POST(request: Request) {
     success_url: `${origin}/settings?success=1`,
     cancel_url: `${origin}/settings?canceled=1`,
     metadata: { userId: user.id },
+    subscription_data: { metadata: { userId: user.id } },
   });
 
   return NextResponse.json({ url: session.url });
