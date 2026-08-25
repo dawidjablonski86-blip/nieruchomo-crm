@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Nav from "@/components/Nav";
 import UpgradeButton from "@/components/UpgradeButton";
+import DeleteAccountButton from "@/components/DeleteAccountButton";
 
 export default async function SettingsPage({ searchParams }: { searchParams: { success?: string; canceled?: string } }) {
   const authUser = await getCurrentUser();
@@ -42,6 +43,13 @@ export default async function SettingsPage({ searchParams }: { searchParams: { s
               <UpgradeButton />
             </div>
           )}
+        </div>
+
+        <div style={{ background: "#fff", border: "1px solid #E2DCC9", borderRadius: 10, padding: 20, marginTop: 16 }}>
+          <div style={{ fontSize: 12, color: "#8A93A6", textTransform: "uppercase", fontWeight: 700, marginBottom: 10 }}>
+            Strefa zagrożenia
+          </div>
+          <DeleteAccountButton />
         </div>
       </div>
     </div>
