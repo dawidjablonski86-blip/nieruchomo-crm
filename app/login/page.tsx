@@ -62,7 +62,7 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         style={{ background: "#fff", borderRadius: 16, padding: 32, width: 360, display: "flex", flexDirection: "column", gap: 12 }}
       >
-        <h1 style={{ fontSize: 20, margin: 0 }}>Nieruchomo CRM</h1>
+        <h1 style={{ fontSize: 20, margin: 0 }}>Nieruchomość CRM</h1>
         <p style={{ fontSize: 13, color: "#475569", margin: "0 0 8px" }}>
           {mode === "login" && "Zaloguj się do panelu agenta."}
           {mode === "signup" && "Załóż nowe konto agenta."}
