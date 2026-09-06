@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-  title: "Nieruchomo CRM",
+  title: "Nieruchomość CRM",
   description: "CRM dla agenta nieruchomości",
 };
 
